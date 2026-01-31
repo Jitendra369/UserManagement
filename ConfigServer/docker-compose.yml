@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  springboot:
+    build: .
+    container_name: config-server
+    ports:
+      - "8853:8853"
+volumes:
+    springboot-data:

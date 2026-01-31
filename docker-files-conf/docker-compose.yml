@@ -1,0 +1,53 @@
+version: "3.8"
+
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: takeNote
+#      MYSQL_USER: root
+#      MYSQL_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost","-u","root","-proot1234"]
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root1234
+      PMA_PASSWORD: root1234
+    ports:
+      - "8081:80"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  springboot:
+    build: .
+    container_name: takeNote-app
+    ports:
+      - "9090:8082"
+    environment:
+      SERVER_PORT: 8082
+      SERVER_ADDRESS: 0.0.0.0
+#      MYSQL_HOST: mysql
+#      MYSQL_PORT: 3306
+#      MYSQL_DB: takeNote
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/takeNote
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root1234
+#      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      mysql:
+        condition: service_healthy
+volumes:
+    mysql-data:

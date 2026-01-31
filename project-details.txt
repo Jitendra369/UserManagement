@@ -1,0 +1,5 @@
+
+>> attach java monetering tool to java application 
+
+- [ also need to configure in docker container ]
+- java -javaagent:C:\Users\ASUS\Downloads\glowroot-0.14.0-dist\glowroot\glowroot.jar -jar target/orderService-0.0.1-SNAPSHOT.jar

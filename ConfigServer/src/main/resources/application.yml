@@ -1,0 +1,29 @@
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone:  ${EUREKA_SERVER_URL:http://localhost:8761/eureka}
+
+
+
+server:
+  port: 8853
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,mappings
+
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Jitendra369/ecommerce-config
+          clone-on-start: true
